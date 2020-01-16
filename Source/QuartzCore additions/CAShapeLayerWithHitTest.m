@@ -35,7 +35,7 @@ static CGFloat targetInset = 25;
 	if( boundsContains )
 	{
         /// 获取边缘大小
-        CGRect boundingBox = CGPathGetBoundingBox(self.path);
+        CGRect boundingBox = CGPathGetPathBoundingBox(self.path);
         
         CGFloat targetWidth = CGRectGetWidth(boundingBox) + targetInset * 2;
         CGFloat targetHeight = CGRectGetHeight(boundingBox) + targetInset * 2;
@@ -49,7 +49,7 @@ static CGFloat targetInset = 25;
         CGPathRef pathRef = CGPathCreateCopyByTransformingPath(self.path, &scaleTransform);
         
         CGPoint OCP = CGPointMake(CGRectGetMidX(boundingBox), CGRectGetMidY(boundingBox));
-        CGRect fBoundingBox = CGPathGetBoundingBox(pathRef);
+        CGRect fBoundingBox = CGPathGetPathBoundingBox(pathRef);
         CGPoint FCP = CGPointMake(CGRectGetMidX(fBoundingBox), CGRectGetMidY(fBoundingBox));
         
         /// 平移回到原中心点
