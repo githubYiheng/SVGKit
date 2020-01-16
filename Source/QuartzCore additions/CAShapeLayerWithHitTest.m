@@ -58,7 +58,7 @@ static CGFloat targetInset = 25;
         CGAffineTransform moveTransform =  CGAffineTransformMakeTranslation(-x, -y);
         CGPathRef finalPathRef = CGPathCreateCopyByTransformingPath(pathRef, &moveTransform);
         BOOL pathContains = CGPathContainsPoint(finalPathRef, NULL, p, FALSE);
-        NSLog(@"layerName:%@ \npath:%@ \npathRef:%@ \nfinalPathRef:%@ \npathContains:%d \nscaleX:%f \nscaleY:%f \npointX:%f \npointY:%f \nboundingBoxW:%f \nboundingBoxH:%f \nmx:%f \nmy:%f", self.name, self.path, pathRef, finalPathRef, pathContains, scaleX, scaleY, p.x, p.y, CGRectGetWidth(boundingBox), CGRectGetHeight(boundingBox), x, y);
+        NSLog(@"layerName:%@ \npath:%@ \npathRef:%@ \nfinalPathRef:%@ \npathContains:%d \nscaleX:%f \nscaleY:%f \npointX:%f \npointY:%f \nboundingBoxX:%f \nboundingBoxY:%f \nboundingBoxW:%f \nboundingBoxH:%f \nboundingBoxX:%f \nboundingBoxY:%f \nboundingBoxW:%f \nboundingBoxH:%f \nmx:%f \nmy:%f", self.name, self.path, pathRef, finalPathRef, pathContains, scaleX, scaleY, p.x, p.y, CGRectGetMinX(boundingBox), CGRectGetMinY(boundingBox), CGRectGetWidth(boundingBox), CGRectGetHeight(boundingBox), CGRectGetMinX(fBoundingBox), CGRectGetMinY(fBoundingBox), CGRectGetWidth(fBoundingBox), CGRectGetHeight(fBoundingBox), x, y);
         
         CGPathRelease(pathRef);
         CGPathRelease(finalPathRef);
