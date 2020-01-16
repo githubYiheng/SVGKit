@@ -55,10 +55,10 @@ static CGFloat targetInset = 25;
         /// 平移回到原中心点
 //        CGFloat x = FCP.x - OCP.x;
 //        CGFloat y = FCP.y - OCP.y;
-        CGAffineTransform moveTransform = CGAffineTransformMakeTranslation(-targetInset, -targetInset);
+        CGAffineTransform moveTransform =  CGAffineTransformMakeTranslation(-targetInset, -targetInset);
         CGPathRef finalPathRef = CGPathCreateCopyByTransformingPath(pathRef, &moveTransform);
-        BOOL pathContains = CGPathContainsPoint(finalPathRef, NULL, p, true);
-        NSLog(@"layerName:%@ \npath:%@ \npathRef:%@ \nfinalPathRef:%@", self.name, self.path, pathRef, finalPathRef);
+        BOOL pathContains = CGPathContainsPoint(finalPathRef, NULL, p, FALSE);
+        NSLog(@"layerName:%@ \npath:%@ \npathRef:%@ \nfinalPathRef:%@ \npathContains:%d \nscaleX:%f \nscaleY:%f \npointX:%f \npointY:%f \nboundingBoxW:%f \nboundingBoxH:%f", self.name, self.path, pathRef, finalPathRef, pathContains, scaleX, scaleY, p.x, p.y, CGRectGetWidth(boundingBox), CGRectGetHeight(boundingBox));
         
         CGPathRelease(pathRef);
         CGPathRelease(finalPathRef);
