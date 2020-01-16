@@ -34,10 +34,10 @@ static CGFloat targetInset = 25;
 	if( boundsContains )
 	{
         /// 获取边缘大小
-//        CGRect boundingBox = CGPathGetBoundingBox(self.path);
-        CGRect boundingBox = self.bounds;
-        CGFloat targetWidth = boundingBox.size.width + targetInset * 2;
-        CGFloat targetHeight = boundingBox.size.height + targetInset * 2;
+        CGRect boundingBox = CGPathGetBoundingBox(self.path);
+        
+        CGFloat targetWidth = CGRectGetWidth(boundingBox) + targetInset * 2;
+        CGFloat targetHeight = CGRectGetHeight(boundingBox) + targetInset * 2;
         
         /// 缩放比例
         CGFloat scaleX = targetWidth / boundingBox.size.width;
@@ -46,10 +46,15 @@ static CGFloat targetInset = 25;
         CGAffineTransform scaleTransform = CGAffineTransformMakeScale(scaleX, scaleY);
         /// 转换为放大后
         CGPathRef pathRef = CGPathCreateCopyByTransformingPath(self.path, &scaleTransform);
+        
+        CGPoint OCP = CGPointMake(CGRectGetMinX(boundingBox) + CGRectGetWidth(boundingBox) / 2, CGRectGetMinY(boundingBox) + CGRectGetHeight(boundingBox));
+        CGRect fBoundingBox = CGPathGetBoundingBox(pathRef);
+        CGPoint FCP = CGPointMake(CGRectGetMinX(fBoundingBox) + CGRectGetWidth(fBoundingBox) / 2, CGRectGetMinY(fBoundingBox) + CGRectGetHeight(fBoundingBox));
+        
         /// 平移回到原中心点
-        CGFloat x = targetWidth - boundingBox.size.width;
-        CGFloat y = targetHeight - boundingBox.size.height;
-        CGAffineTransform moveTransform = CGAffineTransformMakeTranslation(-x/2, -y/2);
+        CGFloat x = FCP.x - OCP.x;
+        CGFloat y = FCP.y - OCP.y;
+        CGAffineTransform moveTransform = CGAffineTransformMakeTranslation(-x, -y);
         CGPathRef finalPathRef = CGPathCreateCopyByTransformingPath(pathRef, &moveTransform);
         BOOL pathContains = CGPathContainsPoint(finalPathRef, NULL, p, false);
         CGPathRelease(pathRef);
