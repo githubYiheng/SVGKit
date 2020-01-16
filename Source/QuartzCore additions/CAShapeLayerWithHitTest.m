@@ -11,8 +11,24 @@ static CGFloat targetInset = 25;
 
 - (BOOL) containsPoint:(CGPoint)p
 {
+    if (!self.expend) {
+        BOOL boundsContains = CGRectContainsPoint(self.bounds, p);
+        if( boundsContains )
+        {
+            BOOL pathContains = CGPathContainsPoint(self.path, NULL, p, false);
+            if( pathContains )
+            {
+                for( CALayer* subLayer in self.sublayers )
+                {
+                    SVGKitLogVerbose(@"...contains point, Apple will now check sublayer: %@", subLayer);
+                }
+                return TRUE;
+            }
+        }
+        return FALSE;
+    }
+    
 	BOOL boundsContains = CGRectContainsPoint(self.expandedBounds, p);
-	
 	if( boundsContains )
 	{
         /// 获取边缘大小
@@ -33,6 +49,8 @@ static CGFloat targetInset = 25;
         CGAffineTransform moveTransform = CGAffineTransformMakeTranslation(-x/2, -y/2);
         CGPathRef finalPathRef = CGPathCreateCopyByTransformingPath(pathRef, &moveTransform);
         BOOL pathContains = CGPathContainsPoint(finalPathRef, NULL, p, false);
+        CGPathRelease(pathRef);
+        CGPathRelease(finalPathRef);
 		if( pathContains )
 		{
 			for( CALayer* subLayer in self.sublayers )

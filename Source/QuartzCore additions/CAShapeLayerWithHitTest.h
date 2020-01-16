@@ -20,5 +20,5 @@
 @interface CAShapeLayerWithHitTest : CAShapeLayerWithClipRender {
     
 }
-
+@property (nonatomic, assign) BOOL expend;
 @end
