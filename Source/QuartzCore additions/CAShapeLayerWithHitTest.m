@@ -48,17 +48,17 @@ static CGFloat targetInset = 25;
         /// 转换为放大后
         CGPathRef pathRef = CGPathCreateCopyByTransformingPath(self.path, &scaleTransform);
         
-//        CGPoint OCP = CGPointMake(CGRectGetMinX(boundingBox) + CGRectGetWidth(boundingBox) / 2, CGRectGetMinY(boundingBox) + CGRectGetHeight(boundingBox) / 2);
+        CGPoint OCP = CGPointMake(CGRectGetMinX(boundingBox) + CGRectGetWidth(boundingBox) / 2, CGRectGetMinY(boundingBox) + CGRectGetHeight(boundingBox) / 2);
         CGRect fBoundingBox = CGPathGetBoundingBox(pathRef);
-//        CGPoint FCP = CGPointMake(CGRectGetMinX(fBoundingBox) + CGRectGetWidth(fBoundingBox) / 2, CGRectGetMinY(fBoundingBox) + CGRectGetHeight(fBoundingBox) / 2);
+        CGPoint FCP = CGPointMake(CGRectGetMinX(fBoundingBox) + CGRectGetWidth(fBoundingBox) / 2, CGRectGetMinY(fBoundingBox) + CGRectGetHeight(fBoundingBox) / 2);
         
         /// 平移回到原中心点
-//        CGFloat x = FCP.x - OCP.x;
-//        CGFloat y = FCP.y - OCP.y;
-        CGAffineTransform moveTransform =  CGAffineTransformMakeTranslation(-targetInset, -targetInset);
+        CGFloat x = FCP.x - OCP.x;
+        CGFloat y = FCP.y - OCP.y;
+        CGAffineTransform moveTransform =  CGAffineTransformMakeTranslation(-x, -y);
         CGPathRef finalPathRef = CGPathCreateCopyByTransformingPath(pathRef, &moveTransform);
         BOOL pathContains = CGPathContainsPoint(finalPathRef, NULL, p, FALSE);
-        NSLog(@"layerName:%@ \npath:%@ \npathRef:%@ \nfinalPathRef:%@ \npathContains:%d \nscaleX:%f \nscaleY:%f \npointX:%f \npointY:%f \nboundingBoxW:%f \nboundingBoxH:%f", self.name, self.path, pathRef, finalPathRef, pathContains, scaleX, scaleY, p.x, p.y, CGRectGetWidth(boundingBox), CGRectGetHeight(boundingBox));
+        NSLog(@"layerName:%@ \npath:%@ \npathRef:%@ \nfinalPathRef:%@ \npathContains:%d \nscaleX:%f \nscaleY:%f \npointX:%f \npointY:%f \nboundingBoxW:%f \nboundingBoxH:%f \nmx:%f \nmy:%f", self.name, self.path, pathRef, finalPathRef, pathContains, scaleX, scaleY, p.x, p.y, CGRectGetWidth(boundingBox), CGRectGetHeight(boundingBox), x, y);
         
         CGPathRelease(pathRef);
         CGPathRelease(finalPathRef);
