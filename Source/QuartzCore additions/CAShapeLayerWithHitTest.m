@@ -47,9 +47,9 @@ static CGFloat targetInset = 25;
         /// 转换为放大后
         CGPathRef pathRef = CGPathCreateCopyByTransformingPath(self.path, &scaleTransform);
         
-        CGPoint OCP = CGPointMake(CGRectGetMinX(boundingBox) + CGRectGetWidth(boundingBox) / 2, CGRectGetMinY(boundingBox) + CGRectGetHeight(boundingBox));
+        CGPoint OCP = CGPointMake(CGRectGetMinX(boundingBox) + CGRectGetWidth(boundingBox) / 2, CGRectGetMinY(boundingBox) + CGRectGetHeight(boundingBox) / 2);
         CGRect fBoundingBox = CGPathGetBoundingBox(pathRef);
-        CGPoint FCP = CGPointMake(CGRectGetMinX(fBoundingBox) + CGRectGetWidth(fBoundingBox) / 2, CGRectGetMinY(fBoundingBox) + CGRectGetHeight(fBoundingBox));
+        CGPoint FCP = CGPointMake(CGRectGetMinX(fBoundingBox) + CGRectGetWidth(fBoundingBox) / 2, CGRectGetMinY(fBoundingBox) + CGRectGetHeight(fBoundingBox) / 2);
         
         /// 平移回到原中心点
         CGFloat x = FCP.x - OCP.x;
