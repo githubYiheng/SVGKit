@@ -11,7 +11,7 @@ static CGFloat targetInset = 25;
 
 - (BOOL) containsPoint:(CGPoint)p
 {
-    self.expend = true;
+    
     if (!self.expend) {
         BOOL boundsContains = CGRectContainsPoint(self.bounds, p); // must be BOUNDS because Apple pre-converts the point to local co-ords before running the test
         
