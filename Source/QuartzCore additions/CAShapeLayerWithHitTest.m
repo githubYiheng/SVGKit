@@ -11,6 +11,7 @@ static CGFloat targetInset = 25;
 
 - (BOOL) containsPoint:(CGPoint)p
 {
+    
     if (!self.expend) {
         BOOL boundsContains = CGRectContainsPoint(self.bounds, p); // must be BOUNDS because Apple pre-converts the point to local co-ords before running the test
         
@@ -40,25 +41,29 @@ static CGFloat targetInset = 25;
         CGFloat targetHeight = CGRectGetHeight(boundingBox) + targetInset * 2;
         
         /// 缩放比例
-        CGFloat scaleX = targetWidth / boundingBox.size.width;
-        CGFloat scaleY = targetHeight / boundingBox.size.height;
+        CGFloat scaleX = targetWidth / CGRectGetWidth(boundingBox);
+        CGFloat scaleY = targetHeight / CGRectGetHeight(boundingBox);
         /// 放大
         CGAffineTransform scaleTransform = CGAffineTransformMakeScale(scaleX, scaleY);
         /// 转换为放大后
         CGPathRef pathRef = CGPathCreateCopyByTransformingPath(self.path, &scaleTransform);
         
-        CGPoint OCP = CGPointMake(CGRectGetMinX(boundingBox) + CGRectGetWidth(boundingBox) / 2, CGRectGetMinY(boundingBox) + CGRectGetHeight(boundingBox) / 2);
+//        CGPoint OCP = CGPointMake(CGRectGetMinX(boundingBox) + CGRectGetWidth(boundingBox) / 2, CGRectGetMinY(boundingBox) + CGRectGetHeight(boundingBox) / 2);
         CGRect fBoundingBox = CGPathGetBoundingBox(pathRef);
-        CGPoint FCP = CGPointMake(CGRectGetMinX(fBoundingBox) + CGRectGetWidth(fBoundingBox) / 2, CGRectGetMinY(fBoundingBox) + CGRectGetHeight(fBoundingBox) / 2);
+//        CGPoint FCP = CGPointMake(CGRectGetMinX(fBoundingBox) + CGRectGetWidth(fBoundingBox) / 2, CGRectGetMinY(fBoundingBox) + CGRectGetHeight(fBoundingBox) / 2);
         
         /// 平移回到原中心点
-        CGFloat x = FCP.x - OCP.x;
-        CGFloat y = FCP.y - OCP.y;
-        CGAffineTransform moveTransform = CGAffineTransformMakeTranslation(-x, -y);
+//        CGFloat x = FCP.x - OCP.x;
+//        CGFloat y = FCP.y - OCP.y;
+        CGAffineTransform moveTransform = CGAffineTransformMakeTranslation(-targetInset, -targetInset);
         CGPathRef finalPathRef = CGPathCreateCopyByTransformingPath(pathRef, &moveTransform);
-        BOOL pathContains = CGPathContainsPoint(finalPathRef, NULL, p, false);
+        BOOL pathContains = CGPathContainsPoint(finalPathRef, NULL, p, true);
+        NSLog(@"layerName:%@ \npath:%@ \npathRef:%@ \nfinalPathRef:%@", self.name, self.path, pathRef, finalPathRef);
+        
         CGPathRelease(pathRef);
         CGPathRelease(finalPathRef);
+        
+        
 		if( pathContains )
 		{
 			for( CALayer* subLayer in self.sublayers )
