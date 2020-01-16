@@ -11,11 +11,14 @@ static CGFloat targetInset = 25;
 
 - (BOOL) containsPoint:(CGPoint)p
 {
+    self.expend = TRUE;
     if (!self.expend) {
-        BOOL boundsContains = CGRectContainsPoint(self.bounds, p);
+        BOOL boundsContains = CGRectContainsPoint(self.bounds, p); // must be BOUNDS because Apple pre-converts the point to local co-ords before running the test
+        
         if( boundsContains )
         {
             BOOL pathContains = CGPathContainsPoint(self.path, NULL, p, false);
+            
             if( pathContains )
             {
                 for( CALayer* subLayer in self.sublayers )
@@ -32,7 +35,8 @@ static CGFloat targetInset = 25;
 	if( boundsContains )
 	{
         /// 获取边缘大小
-        CGRect boundingBox = CGPathGetBoundingBox(self.path);
+//        CGRect boundingBox = CGPathGetBoundingBox(self.path);
+        CGRect boundingBox = self.bounds;
         CGFloat targetWidth = boundingBox.size.width + targetInset * 2;
         CGFloat targetHeight = boundingBox.size.height + targetInset * 2;
         
@@ -44,8 +48,8 @@ static CGFloat targetInset = 25;
         /// 转换为放大后
         CGPathRef pathRef = CGPathCreateCopyByTransformingPath(self.path, &scaleTransform);
         /// 平移回到原中心点
-        CGFloat x = boundingBox.size.width*scaleX - boundingBox.size.width;
-        CGFloat y = boundingBox.size.height*scaleY - boundingBox.size.height;
+        CGFloat x = targetWidth - boundingBox.size.width;
+        CGFloat y = targetHeight - boundingBox.size.height;
         CGAffineTransform moveTransform = CGAffineTransformMakeTranslation(-x/2, -y/2);
         CGPathRef finalPathRef = CGPathCreateCopyByTransformingPath(pathRef, &moveTransform);
         BOOL pathContains = CGPathContainsPoint(finalPathRef, NULL, p, false);
