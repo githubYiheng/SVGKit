@@ -77,6 +77,6 @@ static CGFloat targetInset = 15;
 }
 
 - (CGRect)expandedBounds {
-    return CGRectInset(self.bounds, -targetInset, -targetInset);
+    return CGRectInset(self.bounds, -(targetInset / self.contentsScale), -(targetInset / self.contentsScale));
 }
 @end
