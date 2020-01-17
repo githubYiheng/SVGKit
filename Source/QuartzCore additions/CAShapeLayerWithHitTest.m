@@ -11,10 +11,6 @@ static CGFloat targetInset = 15;
 
 - (BOOL) containsPoint:(CGPoint)p
 {
-    if (self.expend) {
-        return CGRectContainsPoint(self.expandedBounds, p);
-    }
-    
     BOOL boundsContains = CGRectContainsPoint(self.bounds, p); // must be BOUNDS because Apple pre-converts the point to local co-ords before running the test
     
     if( boundsContains )
